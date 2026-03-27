@@ -1,397 +1,1021 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Secret for Gargi</title>
-    <style>
-        /* --- [CSS - The Style and Animation] --- */
-        
-        /* General Setup */
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #f7f3e8; /* Soft parchment color throughout */
-            color: #333;
-            font-family: 'Georgia', serif; /* A romantic serif font */
-            overflow: hidden; /* Prevent scrolling until phase 3 */
-            transition: background-color 1.5s ease;
-        }
+/* ========== MAIN SITE ========== */
+  #main-site {
+    display: none;
+    position: relative;
+    z-index: 1;
+  }
 
-        /* --- Phase 1: The Cryptic Game Screen --- */
-        #game-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #222; /* Old terminal black */
-            color: #3fb276; /* Green code color */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            transition: all 1s ease;
-            text-align: center;
-            font-family: 'Courier New', monospace;
-            padding: 20px;
-        }
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(160deg, #1a0a2e 0%, #2d1b4e 40%, #1a2a1a 100%);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+    position: relative;
+    overflow: hidden;
+  }
 
-        .signal-grid {
-            border: 2px dashed #3fb276;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            position: relative;
-        }
+  .petals-container {
+    position: absolute; inset: 0;
+    pointer-events: none; overflow: hidden;
+  }
 
-        .map-point {
-            position: absolute;
-            font-size: 10px;
-            animation: pointPulse 1s infinite alternate;
-        }
+  .petal {
+    position: absolute;
+    font-size: clamp(0.8rem, 2vw, 1.4rem);
+    animation: fall linear infinite;
+    opacity: 0.7;
+  }
 
-        #game-prompt { font-size: 1.2rem; margin-bottom: 15px; }
-        
-        #game-input {
-            background: transparent;
-            border: 1px solid #3fb276;
-            color: #3fb276;
-            padding: 10px;
-            font-size: 1rem;
-            width: 200px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
+  @keyframes fall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.7; }
+    90% { opacity: 0.7; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
 
-        #decrypt-status { font-style: italic; color: #ff6b6b; font-size: 0.9rem; margin-top: 10px; }
+  .hero-emoji-art {
+    font-size: clamp(3rem, 10vw, 6rem);
+    margin-bottom: 20px;
+    animation: floatAnim 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(244,160,176,0.5));
+  }
 
-        #launch-protocol-btn {
-            display: none; /* Hidden until solved */
-            background-color: #3fb276;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            animation: buttonAttention 2s infinite;
-        }
+  @keyframes floatAnim {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+  }
 
-        /* --- Phase 2: The Envelope Transition --- */
-        #envelope-reveal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #fafafa;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            transition: all 1.5s ease-in-out;
-            opacity: 0; /* Hidden initially */
-            pointer-events: none; /* Disabled initially */
-            border: 5px solid #0056b3; /* Airmail Blue border */
-        }
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    color: var(--white);
+    text-shadow: 0 0 30px rgba(244,160,176,0.6);
+    margin-bottom: 5px;
+    background: linear-gradient(135deg, #fffdf8, var(--rose), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 
-        #envelope { cursor: pointer; text-align: center; transition: transform 0.3s ease; }
-        #envelope:hover { transform: scale(1.05) rotate(-2deg); }
-        
-        #envelope-icon { font-size: 120px; color: #d8c3a5; }
-        #reveal-text { font-size: 1.2rem; color: #0056b3; margin-top: 20px; }
+  .hero-tagline {
+    font-size: clamp(0.85rem, 2.5vw, 1.2rem);
+    color: rgba(255,255,255,0.6);
+    font-style: italic;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+  }
 
-        /* --- Phase 3: The Secret Page Content --- */
-        #content-page {
-            display: none; /* Hidden until envelope is clicked */
-            width: 100%;
-            height: 100vh;
-            background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
-            overflow-y: scroll; /* Allow vertical scrolling */
-            padding-bottom: 50px;
-        }
+  .hero-date-badge {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(232,201,122,0.4);
+    border-radius: 50px;
+    padding: 10px 28px;
+    color: var(--gold);
+    font-size: clamp(0.8rem, 2vw, 1rem);
+    letter-spacing: 2px;
+    margin-bottom: 40px;
+    backdrop-filter: blur(10px);
+  }
 
-        /* Introduction & Scrapbook Header */
-        .section-intro {
-            text-align: center;
-            padding: 100px 20px;
-            position: relative;
-        }
-        
-        .title-hbd {
-            font-size: 4rem;
-            color: #d1b1a0;
-            margin-bottom: 0;
-            animation: titleFloating 3s infinite ease-in-out;
-        }
-        
-        .time-date {
-            font-weight: bold;
-            color: #d1b1a0;
-            display: block;
-            margin-top: 5px;
-            font-size: 1.1rem;
-        }
+  .scroll-hint {
+    color: rgba(255,255,255,0.4);
+    font-size: 0.85rem;
+    animation: scrollBounce 2s infinite;
+    margin-top: 20px;
+  }
 
-        /* Scapbook Container and Border */
-        .scrapbook-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            border: 3px solid #0056b3;
-            background: rgba(255,255,255,0.8);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            position: relative;
-        }
-        
-        /* The specific pencil drawing section (Image 6) */
-        .section-pencil-sketch {
-            margin: 50px auto;
-            text-align: center;
-            max-width: 700px;
-            border: 10px solid #f3e9d9;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-        }
-        
-        .section-pencil-sketch img {
-            max-width: 100%;
-            height: auto;
-            border: 1px solid #d1b1a0;
-        }
-        
-        .pencil-caption {
-            font-style: italic;
-            color: #6c757d;
-            margin-top: 15px;
-            font-size: 1rem;
-        }
+  @keyframes scrollBounce {
+    0%, 100% { transform: translateY(0); opacity: 0.4; }
+    50% { transform: translateY(8px); opacity: 0.8; }
+  }
 
-        /* Grid for compliments & traits (collage style) */
-        .section-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            max-width: 1000px;
-            margin: 50px auto;
-            padding: 0 20px;
-        }
+  /* ===== SECTIONS COMMON ===== */
+  section {
+    padding: clamp(40px, 8vw, 80px) clamp(16px, 5vw, 40px);
+    position: relative;
+    z-index: 1;
+  }
 
-        .grid-card {
-            background: #fff;
-            border: 2px dashed #0056b3;
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 4vw, 2.5rem);
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+  }
 
-        .grid-card img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
+  .section-title::after {
+    content: '';
+    display: block;
+    width: 60px; height: 3px;
+    background: linear-gradient(90deg, var(--rose), var(--gold));
+    margin: 10px auto 0;
+    border-radius: 2px;
+  }
 
-        .music-notes {
-            position: absolute;
-            font-size: 20px;
-            color: #0056b3;
-            animation: notesFloating 2s infinite linear;
-        }
+  /* ===== HOW WE MET ===== */
+  .how-we-met {
+    background: linear-gradient(160deg, #1a0a2e, #0d1520);
+    color: white;
+  }
 
-        /* The Game Score and Final Message */
-        .final-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            max-width: 700px;
-            margin: 50px auto;
-            text-align: center;
-        }
+  .how-we-met .section-title { color: var(--gold); }
 
-        .final-message {
-            background: #fff;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
+  .timeline {
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+  }
 
-        .final-message span { color: #d1b1a0; font-size: 1.2rem; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--rose), var(--gold));
+    transform: translateX(-50%);
+  }
 
-        /* General Animations */
-        @keyframes pointPulse { 0% { opacity: 0.1; } 100% { opacity: 1; } }
-        @keyframes buttonAttention { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-        @keyframes titleFloating { 0% { transform: translateY(0); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0); } }
-        @keyframes notesFloating { 0% { transform: translate(0, 0) rotate(0deg); opacity: 0; } 50% { transform: translate(10px, -20px) rotate(15deg); opacity: 1; } 100% { transform: translate(20px, -40px) rotate(0deg); opacity: 0; } }
+  @media (max-width: 600px) {
+    .timeline::before { left: 20px; }
+  }
 
-        /* Media queries for mobile */
-        @media (max-width: 768px) {
-            .section-grid { grid-template-columns: 1fr; }
-            .title-hbd { font-size: 2.5rem; }
-            .scrapbook-container { padding: 20px; }
-        }
+  .timeline-item {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: calc(50% + 30px);
+    margin-bottom: 40px;
+    position: relative;
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: all 0.6s ease;
+  }
 
-    </style>
+  .timeline-item.right {
+    justify-content: flex-start;
+    padding-right: 0;
+    padding-left: calc(50% + 30px);
+    transform: translateX(30px);
+  }
+
+  .timeline-item.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  @media (max-width: 600px) {
+    .timeline-item, .timeline-item.right {
+      justify-content: flex-start;
+      padding-right: 0;
+      padding-left: 50px;
+      transform: translateX(-30px);
+    }
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: 50%;
+    top: 15px;
+    width: 14px; height: 14px;
+    background: var(--gold);
+    border-radius: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 0 10px rgba(232,201,122,0.7);
+  }
+
+  @media (max-width: 600px) {
+    .timeline-dot { left: 14px; }
+  }
+
+  .timeline-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 16px 20px;
+    max-width: 250px;
+    backdrop-filter: blur(10px);
+  }
+
+  .timeline-card .emoji { font-size: 1.5rem; margin-bottom: 6px; }
+  .timeline-card h4 { color: var(--rose); font-size: 0.9rem; margin-bottom: 4px; }
+  .timeline-card p { color: rgba(255,255,255,0.7); font-size: 0.82rem; line-height: 1.5; }
+
+  /* ===== CHARACTER ART ===== */
+  .character-section {
+    background: linear-gradient(160deg, #0d1520, #1a1a0a);
+    color: white;
+    text-align: center;
+  }
+
+  .character-section .section-title { color: var(--rose); }
+
+  .character-art-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: clamp(20px, 5vw, 60px);
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+
+  .char-figure {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .char-emoji-art {
+    font-size: clamp(3rem, 8vw, 5rem);
+    line-height: 1;
+    animation: floatAnim 3s ease-in-out infinite;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+    position: relative;
+  }
+
+  .char-emoji-art.delay { animation-delay: 0.5s; }
+
+  .char-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    color: var(--gold);
+  }
+
+  .char-desc {
+    color: rgba(255,255,255,0.6);
+    font-size: clamp(0.7rem, 2vw, 0.85rem);
+    font-style: italic;
+  }
+
+  .flower-gift {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    animation: giftFloat 2s ease-in-out infinite;
+    align-self: center;
+    filter: drop-shadow(0 0 10px rgba(244,160,176,0.5));
+  }
+
+  @keyframes giftFloat {
+    0%, 100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-12px) rotate(5deg); }
+  }
+
+  /* ===== ABOUT HER ===== */
+  .about-section {
+    background: linear-gradient(160deg, #1a1a0a, #1a0a1a);
+    color: white;
+  }
+
+  .about-section .section-title { color: var(--gold); }
+
+  .traits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .trait-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 24px 20px;
+    text-align: center;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .trait-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .trait-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(244,160,176,0.4);
+  }
+
+  .trait-icon { font-size: clamp(1.8rem, 5vw, 2.5rem); margin-bottom: 10px; }
+  .trait-title { color: var(--rose); font-weight: 600; font-size: clamp(0.9rem, 2.5vw, 1.05rem); margin-bottom: 6px; }
+  .trait-desc { color: rgba(255,255,255,0.6); font-size: clamp(0.75rem, 2vw, 0.88rem); line-height: 1.5; }
+
+  /* ===== POEM SECTION ===== */
+  .poem-section {
+    background: linear-gradient(160deg, #1a0a1a, #0d0d1a);
+    color: white;
+    text-align: center;
+  }
+
+  .poem-section .section-title { color: var(--rose); }
+
+  .poem-card {
+    max-width: 600px;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(244,160,176,0.2);
+    border-radius: 24px;
+    padding: clamp(24px, 5vw, 50px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .poem-card::before {
+    content: '❝';
+    position: absolute;
+    top: 10px; left: 20px;
+    font-size: 4rem;
+    color: rgba(244,160,176,0.15);
+    font-family: 'Playfair Display', serif;
+  }
+
+  .poem-line {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(0.9rem, 2.5vw, 1.15rem);
+    color: rgba(255,255,255,0.85);
+    line-height: 2;
+    margin-bottom: 6px;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: all 0.5s ease;
+  }
+
+  .poem-line.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .poem-line.highlight {
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  /* ===== BIRTHDAY MESSAGE ===== */
+  .birthday-section {
+    background: linear-gradient(160deg, #0d0d1a, #1a0a2e);
+    color: white;
+    text-align: center;
+    padding-bottom: 80px;
+  }
+
+  .bday-cake {
+    font-size: clamp(3rem, 10vw, 6rem);
+    animation: cakePop 0.5s ease infinite alternate;
+    display: inline-block;
+    filter: drop-shadow(0 0 20px rgba(232,201,122,0.5));
+  }
+
+  @keyframes cakePop {
+    from { transform: scale(1) rotate(-2deg); }
+    to { transform: scale(1.06) rotate(2deg); }
+  }
+
+  .bday-main-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 6vw, 3.5rem);
+    background: linear-gradient(135deg, var(--rose), var(--gold), var(--white));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 20px 0 10px;
+    text-shadow: none;
+  }
+
+  .bday-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 7vw, 4.5rem);
+    color: var(--gold);
+    text-shadow: 0 0 30px rgba(232,201,122,0.5);
+    margin-bottom: 30px;
+  }
+
+  .bday-message {
+    max-width: 600px;
+    margin: 0 auto 40px;
+    color: rgba(255,255,255,0.75);
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    line-height: 1.9;
+    padding: 0 16px;
+  }
+
+  .confetti-btn {
+    background: linear-gradient(135deg, var(--rose), var(--gold));
+    border: none;
+    padding: 14px 36px;
+    border-radius: 50px;
+    color: white;
+    font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+    font-weight: 700;
+    font-family: 'Quicksand', sans-serif;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 8px 25px rgba(244,160,176,0.4);
+  }
+
+  .confetti-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(244,160,176,0.5);
+  }
+
+  /* ===== CONFETTI ===== */
+  .confetti-piece {
+    position: fixed;
+    width: 10px; height: 10px;
+    pointer-events: none;
+    z-index: 9999;
+    border-radius: 2px;
+    animation: confettiFall 3s linear forwards;
+  }
+
+  @keyframes confettiFall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* ===== FLOATING HEARTS ===== */
+  .heart {
+    position: fixed;
+    font-size: clamp(0.8rem, 2vw, 1.2rem);
+    pointer-events: none;
+    z-index: 9998;
+    animation: heartFloat 4s ease-out forwards;
+  }
+
+  @keyframes heartFloat {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-80vh) scale(0.3); opacity: 0; }
+  }
+
+  /* ===== MUSIC NOTE ===== */
+  .music-bar {
+    position: fixed;
+    bottom: 20px; right: 20px;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50px;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 500;
+    cursor: pointer;
+    color: white;
+    font-size: 0.82rem;
+    transition: background 0.3s;
+  }
+
+  .music-bar:hover { background: rgba(255,255,255,0.15); }
+
+  .music-note-anim {
+    font-size: 1.2rem;
+    animation: noteWiggle 1s infinite alternate;
+  }
+
+  @keyframes noteWiggle {
+    from { transform: rotate(-10deg); }
+    to { transform: rotate(10deg); }
+  }
+
+  /* ===== GENERAL ANIMATIONS ===== */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-title {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .section-title.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* nav dots */
+  .nav-dots {
+    position: fixed;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 400;
+  }
+
+  .nav-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+  }
+
+  .nav-dot.active {
+    background: var(--gold);
+    transform: scale(1.4);
+  }
+
+  @media (max-width: 480px) {
+    .nav-dots { display: none; }
+  }
+</style>
 </head>
 <body>
 
-    <div id="game-screen">
-        <div class="signal-grid">
-            <span class="map-point" style="left:10%; top:20%;">● Amravati</span>
-            <span class="map-point" style="right:10%; top:70%;">Gargi's Heart ●</span>
-            <div style="border-top:1px dotted #3fb276; width:70%; position:absolute; left:15%; top:45%;"></div>
-            establish signal_
+<!-- Stars background -->
+<div class="stars" id="stars"></div>
+
+<!-- ========== COUNTDOWN PAGE ========== -->
+<div id="countdown-page">
+  <div class="lock-icon">🎁</div>
+  <div class="countdown-title">Something special is waiting for you...</div>
+  <div class="countdown-sub">✨ A surprise crafted just for Gargi ✨</div>
+
+  <div class="timer-box">
+    <div class="time-unit">
+      <div class="time-num" id="cd-days">00</div>
+      <div class="time-label">Days</div>
+    </div>
+    <div class="time-unit">
+      <div class="time-num" id="cd-hours">00</div>
+      <div class="time-label">Hours</div>
+    </div>
+    <div class="time-unit">
+      <div class="time-num" id="cd-mins">00</div>
+      <div class="time-label">Mins</div>
+    </div>
+    <div class="time-unit">
+      <div class="time-num" id="cd-secs">00</div>
+      <div class="time-label">Secs</div>
+    </div>
+  </div>
+
+  <div class="surprise-msg">
+    🔒 This page unlocks on <strong style="color:var(--gold)">28th March</strong> — her birthday.<br>
+    Something beautiful is waiting on the other side...
+  </div>
+
+  <button id="unlock-btn" onclick="revealSite()">🎉 Open Your Surprise, Gargi!</button>
+</div>
+
+<!-- ========== MAIN SITE ========== -->
+<div id="main-site">
+
+  <!-- Nav dots -->
+  <div class="nav-dots" id="nav-dots">
+    <div class="nav-dot active" onclick="scrollToSection(0)" title="Home"></div>
+    <div class="nav-dot" onclick="scrollToSection(1)" title="Our Story"></div>
+    <div class="nav-dot" onclick="scrollToSection(2)" title="Us"></div>
+    <div class="nav-dot" onclick="scrollToSection(3)" title="About Her"></div>
+    <div class="nav-dot" onclick="scrollToSection(4)" title="Poem"></div>
+    <div class="nav-dot" onclick="scrollToSection(5)" title="Birthday"></div>
+  </div>
+
+  <!-- Music bar -->
+  <div class="music-bar" id="music-bar" onclick="toggleMusic()">
+    <span class="music-note-anim">🎵</span>
+    <span id="music-label">Birthday Tune</span>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="sec0">
+    <div class="petals-container" id="petals"></div>
+    <div class="hero-emoji-art">🌸✨🌷</div>
+    <div class="hero-name">Happy Birthday</div>
+    <div class="hero-name" style="font-size: clamp(2rem,7vw,4.5rem); margin-top: -10px;">Gargi 🌟</div>
+    <div class="hero-tagline">~ aka Juhi, the mystery that became home ~</div>
+    <div class="hero-date-badge">🗓️ 28 March • A day as beautiful as you</div>
+    <div class="scroll-hint">✨ scroll to explore ✨<br>▼</div>
+  </section>
+
+  <!-- HOW WE MET -->
+  <section class="how-we-met" id="sec1">
+    <div class="section-title">💫 Our Story</div>
+    <div class="timeline">
+      <div class="timeline-item" id="tl0">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="emoji">📱</div>
+          <h4>18th October 2025</h4>
+          <p>A random connection on PeerUp. A mysterious girl who wouldn't even share her real name 😭. Little did I know, the universe was writing something beautiful.</p>
         </div>
-        
-        <div id="game-prompt">Connection Log 300KM.<br>Enter date of first connection (e.g., OCT18):</div>
-        
-        <input type="text" id="game-input" placeholder=">> DATE <<" oninput="checkGameSolve()">
-        
-        <div id="decrypt-status">Waiting for key...</div>
-        
-        <button id="launch-protocol-btn" onclick="goToEnvelope()">Launch Birthday Protocol_</button>
-    </div>
-
-    <div id="envelope-reveal">
-        <div id="envelope" onclick="revealWebsite()">
-            <div id="envelope-icon">✉️</div>
-            <div id="reveal-text">A private arrival for Gargi.<br>Click to unpack.</div>
+      </div>
+      <div class="timeline-item right" id="tl1">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="emoji">🎭</div>
+          <h4>The Mystery Phase</h4>
+          <p>She was guarded, mysterious, kept walls high. Every tiny detail she shared felt like finding a treasure. (She even faked her name — iconic 😌)</p>
         </div>
+      </div>
+      <div class="timeline-item" id="tl2">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="emoji">🌱</div>
+          <h4>Day by Day</h4>
+          <p>Daily talks. Routine stories. Silly games (I won most 😎). Her childlike voice became the most soothing part of my day.</p>
+        </div>
+      </div>
+      <div class="timeline-item right" id="tl3">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="emoji">🌸</div>
+          <h4>300km Apart, Zero Distance at Heart</h4>
+          <p>We haven't met yet. But every conversation bridges those 300km. And one day, we will close that gap. I'm sure of it. 💛</p>
+        </div>
+      </div>
+      <div class="timeline-item" id="tl4">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="emoji">💫</div>
+          <h4>Right Now</h4>
+          <p>She is comfortable now. Joyful. Real. So real that sometimes I hesitate to believe she chose to let me in. And yet — here we are. 🌙</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHARACTER ART -->
+  <section class="character-section" id="sec2">
+    <div class="section-title">🎨 Us, in a picture</div>
+    <div class="character-art-container">
+      <!-- Him -->
+      <div class="char-figure">
+        <div class="char-emoji-art">
+          🧑🏽<br>
+          <span style="font-size:0.5em; display:block; margin-top:-10px;">👓</span>
+        </div>
+        <div style="font-size: clamp(2rem,6vw,4rem); margin-top: -20px;">👔</div>
+        <div class="char-name">The Guy 🕶️</div>
+        <div class="char-desc">Glasses. Kurta. Trouble-maker.<br>Professional annoyer 😏</div>
+      </div>
+
+      <!-- Gift -->
+      <div class="char-figure" style="justify-content: center; padding-bottom: 40px;">
+        <div class="flower-gift">💐🌸🌺</div>
+        <div style="color: rgba(255,255,255,0.5); font-size: 0.8rem; margin-top: 8px; font-style: italic;">Here, these are for you 🌸</div>
+      </div>
+
+      <!-- Her -->
+      <div class="char-figure">
+        <div class="char-emoji-art delay">
+          👩🏽<br>
+          <span style="font-size:0.5em; display:block; margin-top:-10px;">💛</span>
+        </div>
+        <div style="font-size: clamp(2rem,6vw,4rem); margin-top: -20px;">🥻</div>
+        <div class="char-name">Gargi ✈️</div>
+        <div class="char-desc">Saree queen. Future air hostess.<br>Mystery turned sunshine ☀️</div>
+      </div>
     </div>
 
-    <div id="content-page">
+    <p style="color: rgba(255,255,255,0.5); font-style: italic; font-size: clamp(0.8rem,2vw,0.95rem); max-width: 500px; margin: 0 auto; text-align: center; line-height: 1.8;">
+      Autumn leaves falling, 300km between us — but in every story we share, every game we play, we meet somewhere in the middle 🍂
+    </p>
+  </section>
 
-        <section class="section-intro">
-            <h1 class="title-hbd">Happy Birthday, Gargi!</h1>
-            <p class="time-date">Connection Log: 18 Oct 2025</p>
-        </section>
+  <!-- ABOUT HER -->
+  <section class="about-section" id="sec3">
+    <div class="section-title">🌷 Things that make her, HER</div>
+    <div class="traits-grid">
+      <div class="trait-card" id="tc0">
+        <div class="trait-icon">✈️</div>
+        <div class="trait-title">Future Air Hostess</div>
+        <div class="trait-desc">She's working hard, chasing the skies. She'll get there — I know it before she does. The clouds are lucky.</div>
+      </div>
+      <div class="trait-card" id="tc1">
+        <div class="trait-icon">🎤</div>
+        <div class="trait-title">The Voice</div>
+        <div class="trait-desc">Childlike, soothing, warm — the kind of voice that makes you want to keep talking forever. ASMR but better 🎵</div>
+      </div>
+      <div class="trait-card" id="tc2">
+        <div class="trait-icon">💃</div>
+        <div class="trait-title">Dancer & Singer</div>
+        <div class="trait-desc">She dances like she owns the room and sings sometimes — both are equally magnetic. Art runs through her.</div>
+      </div>
+      <div class="trait-card" id="tc3">
+        <div class="trait-icon">🥟</div>
+        <div class="trait-title">Momo Lover</div>
+        <div class="trait-desc">Her food soulmate? Momos. Simple, warm, delightful — honestly, that's also her personality 😄</div>
+      </div>
+      <div class="trait-card" id="tc4">
+        <div class="trait-icon">🤍</div>
+        <div class="trait-title">Loves White</div>
+        <div class="trait-desc">Her favourite colour is white — pure, elegant, calm. Just like the vibe she brings into every conversation.</div>
+      </div>
+      <div class="trait-card" id="tc5">
+        <div class="trait-icon">🌟</div>
+        <div class="trait-title">Outgoing Soul</div>
+        <div class="trait-desc">Joyful, outgoing, fun — she lights up spaces without trying. Once she opens up, she's pure sunshine ☀️</div>
+      </div>
+    </div>
+  </section>
 
-        <div class="scrapbook-container">
+  <!-- POEM -->
+  <section class="poem-section" id="sec4">
+    <div class="section-title">🖊️ A few words for you</div>
+    <div class="poem-card">
+      <div class="poem-line" id="pl0">She was a mystery I didn't plan to solve,</div>
+      <div class="poem-line" id="pl1">A random click, and everything began to evolve.</div>
+      <div class="poem-line" id="pl2">She hid her name, she hid her smile,</div>
+      <div class="poem-line" id="pl3">But slowly, softly — she made it all worthwhile.</div>
+      <br>
+      <div class="poem-line" id="pl4">Her voice — like mornings made of mist and gold,</div>
+      <div class="poem-line" id="pl5">A childlike laugh, more precious than I'm told.</div>
+      <div class="poem-line" id="pl6">She dances, sings, she chases open skies,</div>
+      <div class="poem-line" id="pl7">And in her joyful soul — the whole world lies.</div>
+      <br>
+      <div class="poem-line highlight" id="pl8">Happy Birthday, Gargi — my favourite surprise,</div>
+      <div class="poem-line highlight" id="pl9">May this year bring you everything you deserve — and more. 🌸</div>
+    </div>
+  </section>
 
-            <section class="section-pencil-sketch">
-                <img src="YOUR_IMG_SKETCH_URL" alt="A pencil sketch of Gargi and the narrator in a park">
-                <p class="pencil-caption">A memory of our connection, just 300km away. Pencil on aged paper.</p>
-            </section>
+  <!-- BIRTHDAY -->
+  <section class="birthday-section" id="sec5">
+    <div class="bday-cake">🎂</div>
+    <div class="bday-main-text">Happy Birthday</div>
+    <div class="bday-name">Gargi 🌸</div>
 
-            <section class="section-grid">
-                <div class="grid-card">
-                    <img src="YOUR_IMG_0_URL" alt="Gargi's many expressions">
-                    <h3>The Annoy & Laugh Box</h3>
-                    <p>I know I irritate you, mysterious lady! It's because your annoyance leads to that beautiful, unique smile. You are my joyful soul.</p>
-                </div>
-                
-                <div class="grid-card">
-                    <div class="music-notes" style="left: 20%; top: 20%">♪</div>
-                    <div class="music-notes" style="left: 70%; top: 30%">♫</div>
-                    <img src="YOUR_IMG_1_URL" alt="Soothing voice from the skies">
-                    <h3>A Sky Full of Voice</h3>
-                    <p>Training to navigate the skies... but your soothing, childish voice already makes me feel like I’m in a calm place. My future air hostess.</p>
-                </div>
-            </section>
-            
-            <section class="grid-card" style="margin: 50px auto; max-width: 800px; text-align: left;">
-                <p style="color: #6c757d; font-style: italic;">We connect daily now, though we’re 300km apart. I hesitated at first, but now you make me more comfortable than I can say. Best person and joyful soul.</p>
-                <ul style="color: #d1b1a0; list-style-type: '★ '; font-weight: bold; margin-left: 20px;">
-                    <li>Favorites: White color, Momos</li>
-                    <li>Loves to dance!</li>
-                    <li>Sings well (sometimes!) 🎵</li>
-                </ul>
-            </section>
-
-            <section class="final-grid">
-                <div class="grid-card">
-                    <img src="YOUR_IMG_3_URL" alt="A gift from 300km away">
-                    <h3>Connection: Established.</h3>
-                    <p>Proof that 300km cannot stop daily connections. I win most games (😎!) but you are the reason I love annoying you.</p>
-                </div>
-
-                <div class="final-message">
-                    <h3>Final Thought for March 28:</h3>
-                    <p>
-                        Gargi, may this year take you closer to the skies you want to navigate. Your beautiful soul and calming voice are special.
-                        <br><br>
-                        <span>Happy Birthday. Keep dancing. Keep being joyful.</span>
-                    </p>
-                </div>
-            </section>
-            
-        </div> <div style="text-align: center; margin-top: 30px; color: #6c757d;">Happy Birthday, Gargi.</div>
-
+    <div class="bday-message">
+      From a random stranger on an app, to the person I look forward to talking to every single day — you've been one of the nicest things that just happened. You are joyful, beautiful, strong and real. I hope this birthday brings you the kind of happiness you so effortlessly give others. May your skies always be open, your momos always be hot, and your smile never dim. 🤍
+      <br><br>
+      <em>— from the guy who annoys you the most and also cares the most 😎💛</em>
     </div>
 
-    <script>
-        // The background music element
-        var bgMusic = new Audio('music.mp3');
-        bgMusic.loop = true; // Loop the music indefinitely
+    <button class="confetti-btn" onclick="launchCelebration()">🎉 Celebrate!</button>
+  </section>
 
-        // --- Phase 1: Cryptic Game Logic ---
-        function checkGameSolve() {
-            var input = document.getElementById('game-input').value.toUpperCase();
-            var statusText = document.getElementById('decrypt-status');
-            var btn = document.getElementById('launch-protocol-btn');
+</div>
 
-            // The exact answer you met: OCT18 or 1018
-            if (input === 'OCT18' || input === '1018') {
-                statusText.style.color = '#3fb276';
-                statusText.innerHTML = '>>> KEY ACCEPTED. SIGNAL LOCKED. <<<';
-                btn.style.display = 'block'; // Reveal the next button
-                document.getElementById('game-prompt').style.color = '#3fb276';
-            } else if (input.length >= 4) {
-                statusText.style.color = '#ff6b6b';
-                statusText.innerHTML = '>> DECRYPTION FAILED. KEY INVALID. <<';
-                btn.style.display = 'none';
-            }
-        }
+<!-- Audio: Birthday tune via Web Audio API -->
+<script>
+// ===== STARS =====
+const starsEl = document.getElementById('stars');
+for (let i = 0; i < 120; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  const size = Math.random() * 2.5 + 0.5;
+  s.style.cssText = `
+    width:${size}px; height:${size}px;
+    left:${Math.random()*100}%;
+    top:${Math.random()*100}%;
+    animation-delay:${Math.random()*3}s;
+    animation-duration:${2+Math.random()*3}s;
+  `;
+  starsEl.appendChild(s);
+}
 
-        // --- Phase 2 transition ---
-        function goToEnvelope() {
-            // Hide the terminal
-            var gameScreen = document.getElementById('game-screen');
-            gameScreen.style.opacity = '0';
-            gameScreen.style.pointerEvents = 'none';
+// ===== PETALS =====
+function initPetals() {
+  const container = document.getElementById('petals');
+  if (!container) return;
+  const emojis = ['🌸','🌺','🌷','✨','💮','🌼'];
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    p.style.cssText = `
+      left:${Math.random()*100}%;
+      top:-30px;
+      animation-duration:${5+Math.random()*8}s;
+      animation-delay:${Math.random()*6}s;
+      font-size:${0.8+Math.random()*1.2}rem;
+    `;
+    container.appendChild(p);
+  }
+}
 
-            // Show the envelope
-            setTimeout(function() {
-                var overlay = document.getElementById('envelope-reveal');
-                overlay.style.opacity = '1';
-                overlay.style.pointerEvents = 'auto';
-            }, 500);
-        }
+// ===== COUNTDOWN =====
+const birthday = new Date('2026-03-28T00:00:00');
 
-        // --- Phase 3 reveal ---
-        function revealWebsite() {
-            // 1. Play the music!
-            bgMusic.play().catch(function(error) {
-                console.log("Music play was blocked, it will play on next user interaction.");
-            });
+function updateCountdown() {
+  const now = new Date();
+  const diff = birthday - now;
 
-            // 2. Hide the envelope
-            var overlay = document.getElementById('envelope-reveal');
-            overlay.style.opacity = '0';
-            overlay.style.pointerEvents = 'none';
+  if (diff <= 0) {
+    // Birthday reached!
+    document.getElementById('cd-days').textContent = '00';
+    document.getElementById('cd-hours').textContent = '00';
+    document.getElementById('cd-mins').textContent = '00';
+    document.getElementById('cd-secs').textContent = '00';
+    document.getElementById('unlock-btn').style.display = 'block';
+    document.querySelector('.surprise-msg').style.display = 'none';
+    return;
+  }
 
-            // 3. Change body background and reveal the secret page
-            document.body.style.backgroundColor = '#fafafa';
-            var content = document.getElementById('content-page');
-            content.style.display = 'block';
+  const days = Math.floor(diff / (1000*60*60*24));
+  const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+  const mins = Math.floor((diff % (1000*60*60)) / (1000*60));
+  const secs = Math.floor((diff % (1000*60)) / 1000);
 
-            // 4. Temporarily enable scrolling for the main content
-            document.body.style.overflowY = 'auto';
-        }
+  document.getElementById('cd-days').textContent = String(days).padStart(2,'0');
+  document.getElementById('cd-hours').textContent = String(hours).padStart(2,'0');
+  document.getElementById('cd-mins').textContent = String(mins).padStart(2,'0');
+  document.getElementById('cd-secs').textContent = String(secs).padStart(2,'0');
+}
 
-        // Add music playback handling if browsers block initial play
-        window.addEventListener('click', function() {
-            if(bgMusic.paused) {
-                bgMusic.play();
-            }
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// Check on load if already birthday
+const now = new Date();
+if (now >= birthday) {
+  document.getElementById('unlock-btn').style.display = 'block';
+  document.querySelector('.surprise-msg').style.display = 'none';
+}
+
+// ===== REVEAL SITE =====
+function revealSite() {
+  const cdPage = document.getElementById('countdown-page');
+  cdPage.style.transition = 'opacity 1.5s ease, transform 1.5s ease';
+  cdPage.style.opacity = '0';
+  cdPage.style.transform = 'scale(1.05)';
+  setTimeout(() => {
+    cdPage.style.display = 'none';
+    document.getElementById('main-site').style.display = 'block';
+    initPetals();
+    initObservers();
+    startMusic();
+    launchHearts();
+  }, 1500);
+}
+
+// ===== MUSIC (Web Audio API - Birthday tune) =====
+let audioCtx = null;
+let musicPlaying = false;
+let musicInterval = null;
+
+const bdayNotes = [
+  // Happy Birthday melody (simplified frequencies)
+  [392,0.3],[392,0.15],[440,0.45],[392,0.45],[523,0.45],[494,0.9],
+  [392,0.3],[392,0.15],[440,0.45],[392,0.45],[587,0.45],[523,0.9],
+  [392,0.3],[392,0.15],[784,0.45],[659,0.45],[523,0.45],[494,0.45],[440,0.9],
+  [698,0.3],[698,0.15],[659,0.45],[523,0.45],[587,0.45],[523,0.9],
+];
+
+function playNote(ctx, freq, startTime, duration) {
+  const oscillator = ctx.createOscillator();
+  const gainNode = ctx.createGain();
+  oscillator.connect(gainNode);
+  gainNode.connect(ctx.destination);
+  oscillator.type = 'sine';
+  oscillator.frequency.setValueAtTime(freq, startTime);
+  gainNode.gain.setValueAtTime(0, startTime);
+  gainNode.gain.linearRampToValueAtTime(0.15, startTime + 0.02);
+  gainNode.gain.linearRampToValueAtTime(0.1, startTime + duration - 0.05);
+  gainNode.gain.linearRampToValueAtTime(0, startTime + duration);
+  oscillator.start(startTime);
+  oscillator.stop(startTime + duration);
+}
+
+function playBirthdaySong(ctx) {
+  let time = ctx.currentTime + 0.1;
+  const speed = 0.5;
+  for (const [freq, dur] of bdayNotes) {
+    playNote(ctx, freq, time, dur * speed);
+    time += dur * speed + 0.02;
+  }
+  return (time - ctx.currentTime) * 1000;
+}
+
+function startMusic() {
+  if (musicPlaying) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  musicPlaying = true;
+  document.getElementById('music-label').textContent = 'Playing 🎶';
+  const duration = playBirthdaySong(audioCtx);
+  musicInterval = setInterval(() => {
+    if (musicPlaying) playBirthdaySong(audioCtx);
+  }, duration + 500);
+}
+
+function stopMusic() {
+  musicPlaying = false;
+  if (audioCtx) { audioCtx.close(); audioCtx = null; }
+  if (musicInterval) { clearInterval(musicInterval); musicInterval = null; }
+  document.getElementById('music-label').textContent = 'Birthday Tune';
+}
+
+function toggleMusic() {
+  if (musicPlaying) {
+    stopMusic();
+  } else {
+    startMusic();
+  }
+}
+
+// ===== CONFETTI =====
+function launchCelebration() {
+  const colors = ['#f4a0b0','#e8c97a','#c9f4a0','#a0c9f4','#f4c9a0','#d4a0f4'];
+  for (let i = 0; i < 120; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti-piece';
+    c.style.cssText = `
+      left:${Math.random()*100}vw;
+      top:-10px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      width:${6+Math.random()*8}px;
+      height:${6+Math.random()*8}px;
+      animation-duration:${2+Math.random()*2}s;
+      animation-delay:${Math.random()*0.5}s;
+      border-radius:${Math.random()>0.5?'50%':'2px'};
+    `;
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 4000);
+  }
+  launchHearts();
+}
+
+function launchHearts() {
+  const hearts = ['❤️','💛','🧡','💕','✨','🌸','💖'];
+  for (let i = 0; i < 15; i++) {
+    setTimeout(() => {
+      const h = document.createElement('div');
+      h.className = 'heart';
+      h.textContent = hearts[Math.floor(Math.random()*hearts.length)];
+      h.style.cssText = `
+        left:${10+Math.random()*80}vw;
+        bottom:${10+Math.random()*20}vh;
+        animation-duration:${3+Math.random()*2}s;
+        animation-delay:${Math.random()*0.5}s;
+      `;
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), 5000);
+    }, i * 150);
+  }
+}
+
+// ===== SCROLL OBSERVERS =====
+function initObservers() {
+  // Timeline items
+  const tlItems = document.querySelectorAll('.timeline-item');
+  const tlObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.2 });
+  tlItems.forEach(el => tlObs.observe(el));
+
+  // Trait cards
+  const cards = document.querySelectorAll('.trait-card');
+  const cardObs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if(e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), 100);
+      }
+    });
+  }, { threshold: 0.15 });
+  cards.forEach(el => cardObs.observe(el));
+
+  // Poem lines
+  const plines = document.querySelectorAll('.poem-line');
+  const pObs = new IntersectionObserver((entries) => {
+    entries.forEach((e, idx) => {
+      if(e.isIntersecting) {
+        const i = parseInt(e.target.id.replace('pl',''));
+        setTimeout(() => e.target.classList.add('visible'), i * 120);
+      }
+    });
+  }, { threshold: 0.1 });
+  plines.forEach(el => pObs.observe(el));
+
+  // Section titles
+  const titles = document.querySelectorAll('.section-title');
+  const titleObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.3 });
+  titles.forEach(el => titleObs.observe(el));
+
+  // Nav dots
+  const sections = document.querySelectorAll('section[id^="sec"]');
+  const navObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting) {
+        const idx = parseInt(e.target.id.replace('sec',''));
+        document.querySelectorAll('.nav-dot').forEach((d,i) => {
+          d.classList.toggle('active', i === idx);
         });
+      }
+    });
+  }, { threshold: 0.4 });
+  sections.forEach(el => navObs.observe(el));
+}
 
-    </script>
+function scrollToSection(idx) {
+  const sec = document.getElementById('sec'+idx);
+  if(sec) sec.scrollIntoView({ behavior: 'smooth' });
+}
+</script>
 </body>
 </html>
