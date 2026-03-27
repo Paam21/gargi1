@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -23,31 +24,63 @@
     overflow-x: hidden;
   }
 
-  /* Preview mode banner */
-  .preview-banner {
+  /* ===== MUSIC START OVERLAY ===== */
+  #music-start-overlay {
     position: fixed;
-    top: 0; left: 0; right: 0;
-    background: linear-gradient(90deg, var(--rose), var(--gold));
-    color: #1a0a2e;
+    inset: 0;
+    background: rgba(13,13,26,0.96);
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    padding: 10px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    z-index: 10000;
-    display: none;
+    padding: 30px;
+    backdrop-filter: blur(10px);
   }
 
-  .preview-banner.show { display: block; }
+  .mso-emoji {
+    font-size: clamp(3rem, 10vw, 6rem);
+    margin-bottom: 20px;
+    animation: floatY 2s ease-in-out infinite;
+  }
 
-  .preview-banner button {
-    background: #1a0a2e;
-    color: white;
+  .mso-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.8rem, 6vw, 3rem);
+    color: var(--gold);
+    margin-bottom: 10px;
+    text-shadow: 0 0 20px rgba(232,201,122,0.5);
+  }
+
+  .mso-sub {
+    color: rgba(255,255,255,0.5);
+    font-size: clamp(0.82rem, 2vw, 1rem);
+    margin-bottom: 36px;
+    font-style: italic;
+  }
+
+  .mso-btn {
+    background: linear-gradient(135deg, var(--rose), var(--gold));
     border: none;
-    padding: 4px 12px;
-    border-radius: 20px;
-    margin-left: 10px;
+    padding: 18px 50px;
+    border-radius: 50px;
+    color: white;
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    font-weight: 700;
+    font-family: 'Quicksand', sans-serif;
     cursor: pointer;
-    font-size: 0.75rem;
+    box-shadow: 0 0 40px rgba(244,160,176,0.5);
+    animation: pulseBtn 2s ease-in-out infinite;
+    letter-spacing: 1px;
+    transition: transform 0.2s;
+  }
+
+  .mso-btn:hover { transform: scale(1.05); }
+
+  @keyframes pulseBtn {
+    0%, 100% { box-shadow: 0 0 20px rgba(232,201,122,0.4); }
+    50% { box-shadow: 0 0 50px rgba(232,201,122,0.8); }
   }
 
   /* Stars */
@@ -67,6 +100,11 @@
     100% { opacity: 1; transform: scale(1.5); }
   }
 
+  @keyframes floatY {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-16px); }
+  }
+
   /* Floating petals */
   .petal {
     position: fixed;
@@ -81,7 +119,7 @@
     100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
   }
 
-  /* ===== COUNTDOWN PAGE (Always Open) ===== */
+  /* ===== COUNTDOWN PAGE ===== */
   #countdown-page {
     position: relative;
     min-height: 100vh;
@@ -100,11 +138,6 @@
     animation: floatY 3s ease-in-out infinite;
     filter: drop-shadow(0 0 20px rgba(244,160,176,0.6));
     margin-bottom: 20px;
-  }
-
-  @keyframes floatY {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-16px); }
   }
 
   .cd-title {
@@ -188,11 +221,6 @@
     transform: translateY(-3px);
   }
 
-  @keyframes pulseBtn {
-    0%, 100% { box-shadow: 0 0 15px rgba(232,201,122,0.3); }
-    50% { box-shadow: 0 0 30px rgba(232,201,122,0.6); }
-  }
-
   /* ===== LOCKED OVERLAY ===== */
   .locked-overlay {
     position: absolute;
@@ -204,7 +232,6 @@
     align-items: center;
     justify-content: center;
     z-index: 10;
-    border-radius: inherit;
     transition: opacity 1s ease;
   }
 
@@ -242,24 +269,7 @@
 
   .lock-desc strong { color: var(--rose); }
 
-  .unlock-test-btn {
-    margin-top: 24px;
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.2);
-    color: rgba(255,255,255,0.4);
-    padding: 8px 20px;
-    border-radius: 30px;
-    font-size: 0.75rem;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-
-  .unlock-test-btn:hover {
-    border-color: var(--gold);
-    color: var(--gold);
-  }
-
-  /* ===== MAIN SECTIONS ===== */
+  /* ===== SITE SECTIONS ===== */
   .site-section {
     position: relative;
     overflow: hidden;
@@ -286,12 +296,11 @@
   .aura1 { width: 500px; height: 500px; top: -100px; left: -150px; background: radial-gradient(circle, rgba(139,26,100,0.15), transparent); }
   .aura2 { width: 400px; height: 400px; bottom: -80px; right: -100px; background: radial-gradient(circle, rgba(232,201,122,0.1), transparent); }
 
-  /* Photo frames */
   .photo-frame {
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-    border: 3px solid rgba(255,255,255,0.1);
+    border: 3px solid rgba(255,255,255,0.12);
     position: relative;
   }
 
@@ -299,7 +308,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.4));
+    background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.35));
     pointer-events: none;
   }
 
@@ -452,10 +461,7 @@
     border: 2px solid rgba(232,201,122,0.2);
   }
 
-  .illustration-box img {
-    width: 100%;
-    display: block;
-  }
+  .illustration-box img { width: 100%; display: block; }
 
   .timeline {
     max-width: 700px;
@@ -466,16 +472,13 @@
   .timeline::before {
     content: '';
     position: absolute;
-    left: 50%;
-    top: 0; bottom: 0;
+    left: 50%; top: 0; bottom: 0;
     width: 2px;
     background: linear-gradient(180deg, var(--rose), var(--gold), transparent);
     transform: translateX(-50%);
   }
 
-  @media (max-width: 580px) {
-    .timeline::before { left: 18px; }
-  }
+  @media (max-width: 580px) { .timeline::before { left: 18px; } }
 
   .tl-item {
     display: flex;
@@ -501,8 +504,7 @@
 
   .tl-dot {
     position: absolute;
-    left: 50%;
-    top: 16px;
+    left: 50%; top: 16px;
     width: 12px; height: 12px;
     background: var(--gold);
     border-radius: 50%;
@@ -543,11 +545,11 @@
     width: clamp(140px, 35vw, 220px);
     height: clamp(175px, 44vw, 280px);
     transform: rotate(-3deg);
+    transition: transform 0.3s;
   }
 
-  .about-photo:nth-child(2) {
-    transform: rotate(3deg) translateY(20px);
-  }
+  .about-photo:nth-child(2) { transform: rotate(3deg) translateY(20px); }
+  .about-photo:hover { transform: rotate(0deg) scale(1.03) !important; }
 
   .traits-grid {
     display: grid;
@@ -610,8 +612,7 @@
 
   .dist-label {
     position: absolute;
-    top: -28px;
-    left: 50%;
+    top: -28px; left: 50%;
     transform: translateX(-50%);
     font-size: clamp(0.7rem, 1.8vw, 0.85rem);
     color: var(--gold);
@@ -815,8 +816,7 @@
   /* NAV DOTS */
   .nav-dots {
     position: fixed;
-    right: 14px;
-    top: 50%;
+    right: 14px; top: 50%;
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
@@ -832,11 +832,7 @@
     transition: background 0.3s, transform 0.3s;
   }
 
-  .nav-dot.active {
-    background: var(--gold);
-    transform: scale(1.5);
-  }
-
+  .nav-dot.active { background: var(--gold); transform: scale(1.5); }
   @media (max-width: 480px) { .nav-dots { display: none; } }
 
   /* CONFETTI */
@@ -868,10 +864,14 @@
 </head>
 <body>
 
-<!-- Preview banner for testing -->
-<div class="preview-banner" id="preview-banner">
-  🔓 PREVIEW MODE: Site is unlocked for testing
-  <button onclick="lockForReal()">Lock for real countdown</button>
+<!-- ===== MUSIC START OVERLAY (fixes autoplay block) ===== -->
+<div id="music-start-overlay">
+  <div class="mso-emoji">🎁</div>
+  <div class="mso-title">A surprise is waiting…</div>
+  <div class="mso-sub">Crafted just for Gargi ✨</div>
+  <button class="mso-btn" onclick="startExperience()">
+    🎵 Open Surprise
+  </button>
 </div>
 
 <!-- Stars -->
@@ -880,11 +880,11 @@
 <!-- Music bar -->
 <div class="music-bar" onclick="toggleMusic()">
   <span class="note-anim">🎵</span>
-  <span id="music-label">Birthday Tune</span>
+  <span id="music-label">Playing 🎶</span>
 </div>
 
 <!-- Nav dots -->
-<div class="nav-dots" id="nav-dots">
+<div class="nav-dots">
   <div class="nav-dot active" onclick="goTo('sec-countdown')" title="Countdown"></div>
   <div class="nav-dot" onclick="goTo('sec-hero')" title="Home"></div>
   <div class="nav-dot" onclick="goTo('sec-story')" title="Our Story"></div>
@@ -894,7 +894,7 @@
   <div class="nav-dot" onclick="goTo('sec-bday')" title="Birthday"></div>
 </div>
 
-<!-- ========== PAGE 1: COUNTDOWN (Always Open) ========== -->
+<!-- ========== COUNTDOWN ========== -->
 <div id="sec-countdown" class="site-section">
   <div id="countdown-page">
     <div class="cd-floating-emoji">🎁</div>
@@ -925,51 +925,40 @@
       Something beautiful is waiting on the other side…
     </div>
 
-    <button class="scroll-down-btn" id="scroll-open-btn" onclick="scrollToHero()">
+    <button class="scroll-down-btn" id="scroll-open-btn" onclick="goTo('sec-hero')">
       🎉 Open Your Surprise, Gargi! ✨
     </button>
   </div>
 </div>
 
-<!-- ========== HERO (Locked) ========== -->
+<!-- ========== HERO ========== -->
 <div id="sec-hero" class="site-section">
   <div class="locked-overlay" id="lock-hero">
     <div class="lock-icon">🔒</div>
-    <div class="lock-title">Locked</div>
-    <div class="lock-desc">
-      This section unlocks on <strong>28th March 2026</strong><br>
-      when the countdown reaches zero 🌸
-    </div>
-    <button class="unlock-test-btn" onclick="unlockAll()">🔓 Unlock for preview (Paam only)</button>
+    <div class="lock-title">Locked until 28th March</div>
+    <div class="lock-desc">Something beautiful is waiting for you on your birthday 🌸</div>
   </div>
 
   <section class="hero">
     <div class="hero-aura aura1"></div>
     <div class="hero-aura aura2"></div>
-
-    <!-- Your photos -->
     <div class="couple-photos">
       <div class="photo-pair paam-side">
         <div class="photo-frame paam-photo">
-          <!-- Your animated photo -->
-          <img src="https://img.sanishtech.com/u/c6b9b0705ce3de236f07ca2bd24a5718.jpg" alt="photo_2026-03-27_22-39-33" width="869" height="1280" loading="lazy" style="max-width:100%;height:auto;">
+          <img src="https://img.sanishtech.com/u/c6b9b0705ce3de236f07ca2bd24a5718.jpg" alt="Paam" style="max-width:100%;height:auto;">
         </div>
         <span class="photo-label">The guy with glasses 🤓</span>
       </div>
-
       <div class="gift-center">
         <div class="gift-emoji">💐🌸</div>
       </div>
-
       <div class="photo-pair gargi-side">
         <div class="photo-frame gargi-photo">
-          <!-- Gargi's traditional photo -->
-          <img src="https://img.sanishtech.com/u/6095251941cd7b9683ed3c4519589b62.jpg" alt="photo_2026-03-28_00-02-07" loading="lazy" style="max-width:100%;height:auto;">
+          <img src="https://img.sanishtech.com/u/6095251941cd7b9683ed3c4519589b62.jpg" alt="Gargi" style="max-width:100%;height:auto;">
         </div>
         <span class="photo-label">Gargi ✨</span>
       </div>
     </div>
-
     <div class="hero-name">Happy Birthday</div>
     <div class="hero-name" style="margin-top:-12px;">Gargi 🌟</div>
     <div class="hero-tagline">~ aka Juhi, the mystery that became my favourite part of every day ~</div>
@@ -977,32 +966,25 @@
   </section>
 </div>
 
-<!-- ========== STORY (Locked) ========== -->
+<!-- ========== STORY ========== -->
 <div id="sec-story" class="site-section">
   <div class="locked-overlay" id="lock-story">
     <div class="lock-icon">🔒</div>
-    <div class="lock-title">Locked</div>
-    <div class="lock-desc">
-      Our story unlocks on <strong>28th March 2026</strong> 🌸
-    </div>
-    <button class="unlock-test-btn" onclick="unlockAll()">🔓 Unlock for preview</button>
+    <div class="lock-title">Locked until 28th March</div>
+    <div class="lock-desc">Our story unlocks on her birthday 🌸</div>
   </div>
 
   <section class="story-section">
     <div class="section-label">📖 our story</div>
     <div class="section-heading">How it all <span>began</span></div>
     <div class="divider"></div>
-
     <div class="story-intro">
-      <p>It all started on <strong>18th October 2025</strong> — a random connection on PeerUp, an English speaking app. Two strangers, one call, and something quietly beautiful began.</p>
-      <p>She was mysterious at first. Guarded. Even faked her name! 😭 But day by day, the walls came down. And now? She's the person I talk to every single day.</p>
+      <p>It all started on <strong>18th October 2025</strong> — a random connection on PeerUp. Two strangers, one call, something quietly beautiful began.</p>
+      <p>She was mysterious at first. Guarded. Even faked her name! 😭 But day by day, the walls came down. Now? She's the person I talk to every single day.</p>
     </div>
-
-    <!-- Your illustration -->
     <div class="illustration-box">
-      <img src="https://img.sanishtech.com/u/0cba8c0cfa240cae57555377615208d2.jpg" alt="photo_2026-03-27_23-56-35" loading="lazy" style="max-width:100%;height:auto;">
+      <img src="https://img.sanishtech.com/u/0cba8c0cfa240cae57555377615208d2.jpg" alt="Our illustration" style="max-width:100%;height:auto;">
     </div>
-
     <div class="timeline">
       <div class="tl-item">
         <div class="tl-dot"></div>
@@ -1017,7 +999,7 @@
         <div class="tl-card">
           <div class="tl-icon">🎭</div>
           <div class="tl-date">The Mystery Phase</div>
-          <div class="tl-text">Guarded, enigmatic, walls up high. Every small detail felt like finding treasure.</div>
+          <div class="tl-text">Guarded, enigmatic, walls up high. Every small detail she shared felt like finding treasure.</div>
         </div>
       </div>
       <div class="tl-item">
@@ -1040,32 +1022,26 @@
   </section>
 </div>
 
-<!-- ========== ABOUT (Locked) ========== -->
+<!-- ========== ABOUT ========== -->
 <div id="sec-about" class="site-section">
   <div class="locked-overlay" id="lock-about">
     <div class="lock-icon">🔒</div>
-    <div class="lock-title">Locked</div>
-    <div class="lock-desc">
-      Unlocks on <strong>28th March 2026</strong> 🌸
-    </div>
-    <button class="unlock-test-btn" onclick="unlockAll()">🔓 Unlock for preview</button>
+    <div class="lock-title">Locked until 28th March</div>
+    <div class="lock-desc">Unlocks on her birthday 🌸</div>
   </div>
 
   <section class="about-section">
     <div class="section-label">🌷 who she is</div>
     <div class="section-heading">Things that make her, <span>HER</span></div>
     <div class="divider"></div>
-
-    <!-- Gargi's photos -->
     <div class="about-photos">
       <div class="photo-frame about-photo">
-       
+        <img src="https://img.sanishtech.com/u/b3ce3f8556204895ac79aef880ac7b5f.jpg" alt="Gargi" style="width:100%;height:100%;object-fit:cover;">
       </div>
       <div class="photo-frame about-photo">
-        
+        <img src="https://img.sanishtech.com/u/e6bf2dfedcd3ebf06c018a206db9a707.jpg" alt="Gargi" style="width:100%;height:100%;object-fit:cover;">
       </div>
     </div>
-
     <div class="traits-grid">
       <div class="trait-card">
         <div class="trait-icon">✈️</div>
@@ -1085,7 +1061,7 @@
       <div class="trait-card">
         <div class="trait-icon">🥟</div>
         <div class="trait-title">Momo Queen 👑</div>
-        <div class="trait-desc">Her food soulmate. Honestly describes her personality too — warm, delightful 😄</div>
+        <div class="trait-desc">Her food soulmate. Warm, delightful — just like her 😄</div>
       </div>
       <div class="trait-card">
         <div class="trait-icon">🤍</div>
@@ -1111,62 +1087,50 @@
   </section>
 </div>
 
-<!-- ========== DISTANCE (Locked) ========== -->
+<!-- ========== DISTANCE ========== -->
 <div id="sec-distance" class="site-section">
   <div class="locked-overlay" id="lock-distance">
     <div class="lock-icon">🔒</div>
-    <div class="lock-title">Locked</div>
-    <div class="lock-desc">
-      Unlocks on <strong>28th March 2026</strong> 🌸
-    </div>
-    <button class="unlock-test-btn" onclick="unlockAll()">🔓 Unlock for preview</button>
+    <div class="lock-title">Locked until 28th March</div>
+    <div class="lock-desc">Unlocks on her birthday 🌸</div>
   </div>
 
   <section class="distance-section">
     <div class="section-label">🗺️ us</div>
     <div class="section-heading">300km <span>apart</span></div>
-    <div class="divider">
-         <img src="https://img.sanishtech.com/u/e6bf2dfedcd3ebf06c018a206db9a707.jpg" alt="photo_2026-03-27_21-17-22" width="948" height="1073" loading="lazy" style="max-width:100%;height:auto;">
-    </div>
-
+    <div class="divider"></div>
     <div class="dist-visual">
       <div class="photo-frame dist-photo paam-d">
-        <img src="https://img.sanishtech.com/u/f3f411c8dd69b7df6a268c8e0a806ffc.jpg" alt="photo_2026-03-27_22-39-33" loading="lazy" style="max-width:100%;height:auto;"> 
+        <img src="https://img.sanishtech.com/u/f3f411c8dd69b7df6a268c8e0a806ffc.jpg" alt="Paam" style="max-width:100%;height:auto;">
       </div>
       <div class="dist-line">
         <span class="dist-label">300km 💫</span>
       </div>
       <div class="photo-frame dist-photo gargi-d">
-        <img src="https://img.sanishtech.com/u/2d7cfce28f54f214bd91ee3bdb71a5fb.jpg" alt="photo_2026-03-27_21-17-12" width="576" height="1280" loading="lazy" style="max-width:100%;height:auto;">
+        <img src="https://img.sanishtech.com/u/2d7cfce28f54f214bd91ee3bdb71a5fb.jpg" alt="Gargi" style="max-width:100%;height:auto;">
       </div>
     </div>
-
     <p class="dist-text">
       Three hundred kilometres on a map. But distance can't measure how her voice feels close at midnight, or how our conversations make those kilometres disappear. <strong>And soon — that number goes to zero. I'm sure of it. 🤍</strong>
     </p>
   </section>
 </div>
 
-<!-- ========== POEM (Locked) ========== -->
+<!-- ========== POEM ========== -->
 <div id="sec-poem" class="site-section">
   <div class="locked-overlay" id="lock-poem">
     <div class="lock-icon">🔒</div>
-    <div class="lock-title">Locked</div>
-    <div class="lock-desc">
-      Unlocks on <strong>28th March 2026</strong> 🌸
-    </div>
-    <button class="unlock-test-btn" onclick="unlockAll()">🔓 Unlock for preview</button>
+    <div class="lock-title">Locked until 28th March</div>
+    <div class="lock-desc">Unlocks on her birthday 🌸</div>
   </div>
 
   <section class="poem-section">
     <div class="section-label">🖊️ written for her</div>
     <div class="section-heading">A poem for <span>Gargi</span></div>
     <div class="divider"></div>
-
     <div class="photo-frame poem-photo">
-      <img src="https://img.sanishtech.com/u/a420a4e20cb185b77e3173bed9d32792.jpg" alt="Gargi smile" id="poem-photo">
+      <img src="https://img.sanishtech.com/u/a420a4e20cb185b77e3173bed9d32792.jpg" alt="Gargi smile" style="width:100%;height:100%;object-fit:cover;">
     </div>
-
     <div class="poem-card">
       <div class="poem-line">She was a mystery I didn't plan to solve,</div>
       <div class="poem-line">A random click, and everything began to evolve.</div>
@@ -1184,31 +1148,26 @@
   </section>
 </div>
 
-<!-- ========== BIRTHDAY (Locked) ========== -->
+<!-- ========== BIRTHDAY ========== -->
 <div id="sec-bday" class="site-section">
   <div class="locked-overlay" id="lock-bday">
     <div class="lock-icon">🔒</div>
-    <div class="lock-title">Locked</div>
-    <div class="lock-desc">
-      The birthday surprise unlocks on <strong>28th March 2026</strong> 🎂
-    </div>
-    <button class="unlock-test-btn" onclick="unlockAll()">🔓 Unlock for preview</button>
+    <div class="lock-title">Locked until 28th March</div>
+    <div class="lock-desc">The birthday surprise unlocks at midnight 🎂</div>
   </div>
 
   <section class="bday-section">
     <div class="bday-photos">
       <div class="photo-frame bday-photo">
-        <img src="https://img.sanishtech.com/u/b3ce3f8556204895ac79aef880ac7b5f.jpg" alt="photo_2026-03-27_21-17-17" width="1080" height="1079" loading="lazy" style="max-width:100%;height:auto;">
+        <img src="https://img.sanishtech.com/u/b3ce3f8556204895ac79aef880ac7b5f.jpg" alt="Gargi" style="max-width:100%;height:auto;">
       </div>
       <div class="photo-frame bday-photo">
-        <img src="https://img.sanishtech.com/u/e6bf2dfedcd3ebf06c018a206db9a707.jpg" alt="photo_2026-03-27_21-17-22" width="948" height="1073" loading="lazy" style="max-width:100%;height:auto;">
+        <img src="https://img.sanishtech.com/u/e6bf2dfedcd3ebf06c018a206db9a707.jpg" alt="Gargi" style="max-width:100%;height:auto;">
       </div>
     </div>
-
     <div class="bday-cake">🎂</div>
     <div class="bday-title">Happy Birthday</div>
     <div class="bday-name">Gargi 🌸</div>
-
     <div class="bday-msg">
       From a random stranger on an app to the person I look forward to talking to every single day — you've been one of the nicest accidents that ever happened to me. You are joyful, real, strong and beautiful inside out.
       <br><br>
@@ -1216,7 +1175,6 @@
       <br><br>
       <strong>Thank you for being you, Juhi. Happy Birthday, my Gargi.</strong>
     </div>
-
     <div class="bday-sign">— from the one who annoys you the most and also cares the most 😎💛</div>
     <br><br>
     <button class="celebrate-btn" onclick="celebrate()">🎉 Celebrate! 🎊</button>
@@ -1238,7 +1196,7 @@ for (let i = 0; i < 130; i++) {
   starsBg.appendChild(s);
 }
 
-// ===== FLOATING PETALS =====
+// ===== PETALS =====
 const petalEmojis = ['🌸','🌺','🌷','✨','💮','🌼','💛'];
 function spawnPetal() {
   const p = document.createElement('div');
@@ -1251,108 +1209,7 @@ function spawnPetal() {
 for (let i = 0; i < 15; i++) setTimeout(spawnPetal, i * 500);
 setInterval(spawnPetal, 1800);
 
-// ===== COUNTDOWN =====
-const birthday = new Date('2026-03-28T00:00:00');
-let unlocked = false;
-let previewMode = false;
-
-function pad(n) { return String(n).padStart(2, '0'); }
-
-function updateCountdown() {
-  const now = new Date();
-  const diff = birthday - now;
-
-  if (diff <= 0 && !unlocked && !previewMode) {
-    unlockAll();
-    return;
-  }
-
-  if (!unlocked) {
-    const days  = Math.floor(diff / 864e5);
-    const hours = Math.floor((diff % 864e5) / 36e5);
-    const mins  = Math.floor((diff % 36e5) / 6e4);
-    const secs  = Math.floor((diff % 6e4) / 1e3);
-    document.getElementById('cd-days').textContent  = pad(days);
-    document.getElementById('cd-hours').textContent = pad(hours);
-    document.getElementById('cd-mins').textContent  = pad(mins);
-    document.getElementById('cd-secs').textContent  = pad(secs);
-  } else {
-    document.getElementById('cd-days').textContent  = '00';
-    document.getElementById('cd-hours').textContent = '00';
-    document.getElementById('cd-mins').textContent  = '00';
-    document.getElementById('cd-secs').textContent  = '00';
-  }
-}
-
-setInterval(updateCountdown, 1000);
-updateCountdown();
-
-// Check if already birthday
-if (new Date() >= birthday) {
-  unlockAll();
-}
-
-// ===== UNLOCK FUNCTIONS =====
-function unlockAll() {
-  unlocked = true;
-  previewMode = true;
-  document.getElementById('preview-banner').classList.add('show');
-  
-  // Update countdown page
-  document.getElementById('cd-msg').innerHTML = "🎉 <strong>Surprise unlocked!</strong> Happy Birthday Gargi! 🎊";
-  document.getElementById('scroll-open-btn').textContent = '🎉 View Your Surprise ✨';
-  
-  // Remove all locks
-  document.querySelectorAll('.locked-overlay').forEach(l => {
-    l.classList.add('unlocked');
-    setTimeout(() => l.style.display = 'none', 1000);
-  });
-  
-  startMusic();
-  celebrate();
-}
-
-function lockForReal() {
-  previewMode = false;
-  unlocked = false;
-  document.getElementById('preview-banner').classList.remove('show');
-  document.querySelectorAll('.locked-overlay').forEach(l => {
-    l.style.display = 'flex';
-    l.classList.remove('unlocked');
-  });
-  document.getElementById('cd-msg').innerHTML = '🔒 The rest unlocks on <strong>28th March</strong> — her birthday.<br>Something beautiful is waiting on the other side…';
-  document.getElementById('scroll-open-btn').textContent = '🎉 Open Your Surprise, Gargi! ✨';
-  stopMusic();
-}
-
-function scrollToHero() {
-  goTo('sec-hero');
-}
-
-function goTo(id) {
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: 'smooth' });
-}
-
-// ===== NAV DOTS =====
-const sections = ['sec-countdown','sec-hero','sec-story','sec-about','sec-distance','sec-poem','sec-bday'];
-const dots = document.querySelectorAll('.nav-dot');
-
-const navObs = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      const idx = sections.indexOf(e.target.id);
-      if (idx >= 0) dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-    }
-  });
-}, { threshold: 0.4 });
-
-sections.forEach(id => {
-  const el = document.getElementById(id);
-  if (el) navObs.observe(el);
-});
-
-// ===== MUSIC =====
+// ===== MUSIC (Web Audio API) =====
 let audioCtx = null;
 let musicPlaying = false;
 let musicLoop = null;
@@ -1367,20 +1224,25 @@ const melody = [
 function playNote(ctx, freq, start, dur) {
   const osc  = ctx.createOscillator();
   const gain = ctx.createGain();
-  osc.connect(gain); gain.connect(ctx.destination);
+  osc.connect(gain);
+  gain.connect(ctx.destination);
   osc.type = 'triangle';
   osc.frequency.setValueAtTime(freq, start);
   gain.gain.setValueAtTime(0, start);
-  gain.gain.linearRampToValueAtTime(0.14, start + 0.03);
-  gain.gain.linearRampToValueAtTime(0.1, start + dur - 0.06);
+  gain.gain.linearRampToValueAtTime(0.16, start + 0.03);
+  gain.gain.linearRampToValueAtTime(0.12, start + dur - 0.06);
   gain.gain.linearRampToValueAtTime(0, start + dur);
-  osc.start(start); osc.stop(start + dur);
+  osc.start(start);
+  osc.stop(start + dur);
 }
 
 function playSong(ctx) {
   let t = ctx.currentTime + 0.1;
   const sp = 0.48;
-  melody.forEach(([f, d]) => { playNote(ctx, f, t, d * sp); t += d * sp + 0.02; });
+  melody.forEach(([f, d]) => {
+    playNote(ctx, f, t, d * sp);
+    t += d * sp + 0.02;
+  });
   return (t - ctx.currentTime) * 1000;
 }
 
@@ -1390,24 +1252,114 @@ function startMusic() {
   musicPlaying = true;
   document.getElementById('music-label').textContent = 'Playing 🎶';
   const dur = playSong(audioCtx);
-  musicLoop = setInterval(() => { if (musicPlaying && audioCtx) playSong(audioCtx); }, dur + 400);
+  musicLoop = setInterval(() => {
+    if (musicPlaying && audioCtx) playSong(audioCtx);
+  }, dur + 400);
 }
 
 function stopMusic() {
   musicPlaying = false;
   if (audioCtx) { audioCtx.close(); audioCtx = null; }
   clearInterval(musicLoop);
-  document.getElementById('music-label').textContent = 'Birthday Tune';
+  document.getElementById('music-label').textContent = 'Play Music 🎵';
 }
 
 function toggleMusic() {
   if (musicPlaying) stopMusic(); else startMusic();
 }
 
+// ===== START EXPERIENCE (fixes autoplay) =====
+function startExperience() {
+  // Dismiss overlay with fade
+  const overlay = document.getElementById('music-start-overlay');
+  overlay.style.transition = 'opacity 0.8s ease';
+  overlay.style.opacity = '0';
+  setTimeout(() => overlay.style.display = 'none', 800);
+
+  // Start music AFTER user interaction — this is the key fix!
+  startMusic();
+
+  // Check countdown
+  updateCountdown();
+  if (new Date() >= birthday) {
+    unlockAll();
+  }
+}
+
+// ===== COUNTDOWN =====
+const birthday = new Date('2026-03-28T00:00:00');
+let unlocked = false;
+
+function pad(n) { return String(n).padStart(2, '0'); }
+
+function updateCountdown() {
+  const now = new Date();
+  const diff = birthday - now;
+
+  if (diff <= 0) {
+    ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id => {
+      document.getElementById(id).textContent = '00';
+    });
+    if (!unlocked) unlockAll();
+    return;
+  }
+
+  document.getElementById('cd-days').textContent  = pad(Math.floor(diff / 864e5));
+  document.getElementById('cd-hours').textContent = pad(Math.floor((diff % 864e5) / 36e5));
+  document.getElementById('cd-mins').textContent  = pad(Math.floor((diff % 36e5) / 6e4));
+  document.getElementById('cd-secs').textContent  = pad(Math.floor((diff % 6e4) / 1e3));
+}
+
+setInterval(updateCountdown, 1000);
+
+// ===== UNLOCK ALL ===== 
+function unlockAll() {
+  if (unlocked) return;
+  unlocked = true;
+
+  document.getElementById('cd-msg').innerHTML = "🎉 <strong>It's your birthday, Gargi!</strong> The surprise is open! 🎊";
+  document.getElementById('scroll-open-btn').textContent = '🎉 View Your Surprise ✨';
+
+  document.querySelectorAll('.locked-overlay').forEach(l => {
+    l.classList.add('unlocked');
+    setTimeout(() => l.style.display = 'none', 1100);
+  });
+
+  celebrate();
+}
+
+// ===== NAV =====
+function goTo(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
+}
+
+const sectionIds = ['sec-countdown','sec-hero','sec-story','sec-about','sec-distance','sec-poem','sec-bday'];
+const dots = document.querySelectorAll('.nav-dot');
+
+new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const idx = sectionIds.indexOf(e.target.id);
+      if (idx >= 0) dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    }
+  });
+}, { threshold: 0.4 }).observe && sectionIds.forEach(id => {
+  const el = document.getElementById(id);
+  if (el) new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const idx = sectionIds.indexOf(e.target.id);
+        if (idx >= 0) dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+      }
+    });
+  }, { threshold: 0.4 }).observe(el);
+});
+
 // ===== CONFETTI =====
 function celebrate() {
   const cols = ['#f4a0b0','#e8c97a','#c9f4a0','#a0d4f4','#d4a0f4','#f4d4a0','#fff'];
-  for (let i = 0; i < 140; i++) {
+  for (let i = 0; i < 150; i++) {
     const c = document.createElement('div');
     c.className = 'confetti-piece';
     c.style.cssText = `left:${Math.random()*100}vw;top:-10px;background:${cols[Math.floor(Math.random()*cols.length)]};width:${6+Math.random()*9}px;height:${6+Math.random()*9}px;animation-duration:${2+Math.random()*2.5}s;animation-delay:${Math.random()*0.6}s;border-radius:${Math.random()>.5?'50%':'3px'};`;
@@ -1419,7 +1371,7 @@ function celebrate() {
 
 function launchHearts() {
   const h = ['❤️','💛','🧡','💕','✨','🌸','💖','🌟'];
-  for (let i = 0; i < 18; i++) {
+  for (let i = 0; i < 20; i++) {
     setTimeout(() => {
       const el = document.createElement('div');
       el.className = 'heart-float';
@@ -1430,14 +1382,6 @@ function launchHearts() {
     }, i * 120);
   }
 }
-
-// ===== REPLACE PLACEHOLDERS WITH REAL PHOTOS =====
-// When you have the actual image files, replace the src attributes:
-// document.getElementById('paam-img').src = 'your-paam-photo.jpg';
-// document.getElementById('gargi-img').src = 'your-gargi-photo.jpg';
-// etc.
-
-console.log('🎁 Birthday site loaded! Click "Unlock for preview" to test the full experience.');
 </script>
 </body>
 </html>
