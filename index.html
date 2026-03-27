@@ -5,350 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Secret for Gargi</title>
     <style>
-        /* --- [CSS - The Style and Animation] --- */
-        
-        /* General Setup */
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #fafafa;
-            color: #333;
-            font-family: 'Georgia', serif; /* Use a romantic serif font */
-            overflow: hidden; /* Hide the content page until reveal */
+        body { margin: 0; padding: 0; background-color: #222; font-family: 'Georgia', serif; overflow: hidden; color: #3fb276; }
+
+        /* PHASE 1: Terminal Game */
+        #game-screen {
+            height: 100vh; width: 100%; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            font-family: 'Courier New', monospace; transition: opacity 0.8s;
+        }
+        #game-input {
+            background: transparent; border: 1px solid #3fb276; color: #3fb276;
+            padding: 10px; font-size: 1.2rem; width: 250px; text-align: center; margin: 20px 0;
+        }
+        #launch-btn {
+            display: none; background: #3fb276; color: white; border: none;
+            padding: 15px 30px; cursor: pointer; border-radius: 5px; font-weight: bold;
         }
 
-        /* The Surprise Overlay (The envelope she clicks) */
-        #reveal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #f7f3e8; /* Soft parchment color */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            transition: all 1.5s ease-in-out;
-            border: 5px solid #0056b3; /* Airmail Blue border */
-            box-sizing: border-box;
+        /* PHASE 2: Envelope (Hidden initially) */
+        #envelope-screen {
+            display: none; height: 100vh; width: 100%; background: #f7f3e8;
+            flex-direction: column; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 1s;
         }
+        #envelope { cursor: pointer; font-size: 100px; transition: transform 0.3s; }
+        #envelope:hover { transform: scale(1.1); }
 
-        #envelope {
-            cursor: pointer;
-            text-align: center;
-            transition: transform 0.3s ease;
+        /* PHASE 3: The Website (Hidden initially) */
+        #main-content {
+            display: none; background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
+            padding: 50px 20px; color: #333; overflow-y: auto; height: 100vh;
         }
-
-        #envelope:hover {
-            transform: scale(1.05) rotate(-2deg);
-        }
-
-        /* Basic SVG Envelope shape */
-        #envelope-icon {
-            font-size: 150px;
-            color: #d8c3a5;
-        }
-
-        #reveal-text {
-            font-size: 24px;
-            color: #0056b3;
-            margin-top: 20px;
-        }
-
-        /* The Secret Page (Content hidden initially) */
-        #content-page {
-            display: none;
-            width: 100%;
-            height: 100vh;
-            background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
-            overflow-y: scroll; /* Allow vertical scrolling */
-            padding-bottom: 50px;
-        }
-
-        /* --- Custom Section 1: Introduction --- */
-        .section-intro {
-            text-align: center;
-            padding: 100px 20px;
-            opacity: 0;
-            transition: opacity 1.5s ease;
-        }
-
-        .title-hbd {
-            font-size: 5rem;
-            color: #d1b1a0;
-            margin-bottom: 0;
-            animation: floating 3s infinite ease-in-out;
-        }
-
-        .title-sub {
-            font-size: 1.5rem;
-            font-style: italic;
-            color: #6c757d;
-        }
-
-        /* --- Custom Section 2: Timeline --- */
-        .section-timeline {
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-            padding: 50px 0;
-        }
-
-        .section-timeline::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 4px;
-            background-color: #d1b1a0;
-            transform: translateX(-50%);
-        }
-
-        .timeline-item {
-            display: flex;
-            margin-bottom: 40px;
-            justify-content: center;
-        }
-
-        .timeline-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 15px;
-            width: 40%;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            position: relative;
-        }
-
-        .timeline-content h3 {
-            color: #0056b3;
-            margin-top: 0;
-        }
-
-        .time-date {
-            font-weight: bold;
-            color: #d1b1a0;
-            display: block;
-            margin-top: 5px;
-        }
-
-        /* Positioning logic for alternate sides */
-        .timeline-item.left .timeline-content { text-align: right; }
-        .timeline-item.right .timeline-content { text-align: left; }
-
-        /* A little connection dot */
-        .timeline-item::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 20px;
-            width: 16px;
-            height: 16px;
-            background-color: white;
-            border: 4px solid #d1b1a0;
-            border-radius: 50%;
-            transform: translateX(-50%);
-            z-index: 1;
-        }
-
-        /* --- Custom Section 3: The Annoy & Voice --- */
-        .section-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            max-width: 1000px;
-            margin: 50px auto;
-            padding: 0 20px;
-        }
-
-        .grid-card {
-            background: rgba(255, 255, 255, 0.7);
-            border: 2px dashed #0056b3;
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            position: relative;
-        }
-
-        .grid-card img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
-
-        .music-notes {
-            position: absolute;
-            font-size: 20px;
-            color: #0056b3;
-            animation: notesFloating 2s infinite linear;
-        }
-
-        /* --- Custom Section 4: Game & Final Message --- */
-        .final-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            max-width: 700px;
-            margin: 50px auto;
-            text-align: center;
-        }
-
-        .final-message {
-            background: #fff;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .final-message span {
-            color: #d1b1a0;
-            font-size: 1.2rem;
-        }
-
-        /* Animations */
-        @keyframes floating {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0); }
-        }
-
-        @keyframes notesFloating {
-            0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
-            50% { transform: translate(10px, -20px) rotate(15deg); opacity: 1; }
-            100% { transform: translate(20px, -40px) rotate(0deg); opacity: 0; }
-        }
-
-        /* Scroll Effects (using JS to trigger these) */
-        .fade-in {
-            opacity: 1 !important;
-        }
-
-        /* Media queries for mobile */
-        @media (max-width: 768px) {
-            .section-grid, .final-grid { grid-template-columns: 1fr; }
-            .section-timeline::before { left: 40px; }
-            .timeline-content { width: 70%; text-align: left; }
-            .timeline-item.left .timeline-content { text-align: left; padding-left: 60px; }
-            .timeline-item.right .timeline-content { text-align: left; padding-left: 60px; }
-            .timeline-item::after { left: 40px; transform: translateX(0); }
-            .title-hbd { font-size: 3rem; }
-        }
-
+        .card { background: white; border: 2px dashed #0056b3; border-radius: 15px; padding: 20px; margin: 20px auto; max-width: 600px; text-align: center; }
+        img { max-width: 100%; border-radius: 10px; }
+        .hbd-text { font-size: 3rem; color: #d1b1a0; text-align: center; }
     </style>
 </head>
 <body>
 
-    <div id="reveal-overlay">
-        <div id="envelope" onclick="revealWebsite()">
-            <div id="envelope-icon">✉️</div>
-            <div id="reveal-text">A special arrival for Gargi.<br>Click to unpack.</div>
-        }
+    <div id="game-screen">
+        <p>CONNECTION LOG: 300KM AWAY</p>
+        <p>Establish Signal. Enter Date of First Connection<br>(Format: OCT18)</p>
+        <input type="text" id="game-input" placeholder="ENTER KEY" oninput="checkInput()">
+        <p id="status"></p>
+        <button id="launch-btn" onclick="showEnvelope()">LAUNCH BIRTHDAY PROTOCOL</button>
     </div>
 
-    <div id="content-page">
+    <div id="envelope-screen">
+        <div id="envelope" onclick="showWebsite()">✉️</div>
+        <p style="color: #0056b3; font-weight: bold;">A private arrival for Gargi. Click to unpack.</p>
+    </div>
 
-        <section class="section-intro" id="hbd-section">
-            <h1 class="title-hbd">Happy Birthday, Gargi!</h1>
-            <p class="title-sub">(Actually Juhi... or the Mysterious Lady!)</p>
-            <p class="time-date">March 28, 2026</p>
-        </section>
+    <div id="main-content">
+        <h1 class="hbd-text">Happy Birthday, Gargi!</h1>
+        <p style="text-align:center; font-style:italic;">(My favorite mysterious lady)</p>
 
-        <section class="section-timeline">
-            <div class="timeline-item right">
-                <div class="timeline-content">
-                    <h3>Mysterious First Call</h3>
-                    <p>On an English speaking app called Peer Up, the 'mysterious lady' and the annoyingly joyful soul finally connected.</p>
-                    <span class="time-date">18 Oct 2025</span>
-                </div>
-            </div>
+        <div class="card">
+            <img src="YOUR_SKETCH_URL" alt="Our Sketch">
+            <p>A memory of us, 300km apart.</p>
+        </div>
 
-            <div class="timeline-item left">
-                <div class="timeline-content">
-                    <h3>Comfort Zone Unlocked</h3>
-                    <p>We connect daily now. That mysterious wall is finally gone, replaced by something much better.</p>
-                </div>
-            </div>
+        <div class="card">
+            <img src="YOUR_IMAGE_0_URL" alt="Gargi">
+            <h3>The Annoy & Laugh Box</h3>
+            <p>I love irritating you just to see that joyful soul shine through. You're the best person to talk to daily.</p>
+        </div>
 
-            <div class="timeline-item right">
-                <div class="timeline-content">
-                    <h3>The Next Flight Path</h3>
-                    <p>It’s 300km away now... but we *will* meet. I’ve booked my ticket to fly.</p>
-                </div>
-            </div>
-        </section>
+        <div class="card">
+            <h3>The Future Air Hostess ✈️</h3>
+            <p>Your voice is the most soothing thing I hear. I know you'll own the skies soon!</p>
+            <p>Fav Color: White | Fav Food: Momos</p>
+        </div>
 
-        <section class="section-grid">
-            <div class="grid-card">
-                <img src="YOUR_IMG_0_URL" alt="A collection of Gargi's annoying moments">
-                <h3>The Annoy & Laugh Box</h3>
-                <p>I know I irritate you. It's one of my favorite hobbies! But seeing that childish expression is how I know I made you smile.</p>
-            </div>
-            
-            <div class="grid-card">
-                <div class="music-notes" style="left: 20%; top: 20%">♪</div>
-                <div class="music-notes" style="left: 70%; top: 30%">♫</div>
-                <img src="YOUR_IMG_1_URL" alt="A soothing voice to make your flights easy">
-                <h3>A Sky Full of Voice</h3>
-                <p>You may be training to navigate the skies, but your voice—so soothing and childish—is what lands me in a calm place every day.</p>
-            </div>
-        </section>
-
-        <section class="final-grid">
-            <div class="grid-card">
-                <img src="YOUR_IMG_3_URL" alt="A gift from 300km away">
-                <h3>Our Connection</h3>
-                <p>We may be long-distance, but every game (even when I mostly win! 😎) is a shared memory.</p>
-            </div>
-
-            <div class="final-message">
-                <h3>Final Thought for March 28:</h3>
-                <p>
-                    Gargi, you are a beautiful soul and a joyful light. May this year take you closer to the skies you want to navigate and the people you care about.
-                    <br><br>
-                    <span>Happy Birthday. Keep dancing and singing (sometimes good!).</span>
-                </p>
-            </div>
-        </section>
-
+        <div class="card">
+            <p>Happy Birthday, Gargi. Keep dancing, keep singing, and keep being you.</p>
+            <p><b>- Your favorite annoyance</b></p>
+        </div>
     </div>
 
     <script>
-        // The background music element
-        var bgMusic = new Audio('music.mp3');
-        bgMusic.loop = true; // Loop the music indefinitely
+        var music = new Audio('music.mp3');
+        music.loop = true;
 
-        function revealWebsite() {
-            // 1. Play the music!
-            bgMusic.play().catch(function(error) {
-                console.log("Music play was blocked, it will play on next user interaction.");
-            });
-
-            // 2. Hide the envelope
-            var overlay = document.getElementById('reveal-overlay');
-            overlay.style.opacity = '0';
-            overlay.style.pointerEvents = 'none';
-
-            // 3. Show the secret page
-            var content = document.getElementById('content-page');
-            content.style.display = 'block';
-
-            // 4. Temporarily enable scrolling for the main content
-            document.body.style.overflowY = 'auto';
-
-            // 5. Trigger the first section fade-in
-            setTimeout(function() {
-                document.getElementById('hbd-section').classList.add('fade-in');
-            }, 100); 
+        function checkInput() {
+            var val = document.getElementById('game-input').value.toUpperCase();
+            if(val === "OCT18" || val === "1018") {
+                document.getElementById('status').innerText = "SIGNAL LOCKED.";
+                document.getElementById('launch-btn').style.display = "block";
+            }
         }
 
-        // Add music playback handling if browsers block initial play
-        window.addEventListener('click', function() {
-            if(bgMusic.paused) {
-                bgMusic.play();
-            }
-        });
+        function showEnvelope() {
+            document.getElementById('game-screen').style.display = "none";
+            let env = document.getElementById('envelope-screen');
+            env.style.display = "flex";
+            setTimeout(() => { env.style.opacity = "1"; }, 50);
+        }
 
+        function showWebsite() {
+            music.play();
+            document.getElementById('envelope-screen').style.display = "none";
+            document.getElementById('main-content').style.display = "block";
+            document.body.style.overflow = "auto";
+        }
     </script>
 </body>
 </html>
